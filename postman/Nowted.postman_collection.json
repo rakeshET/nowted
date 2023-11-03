@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "1f610a3e-f2e8-4f27-b716-1630b03dcca2",
+		"name": "Nowted",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28430410",
+		"_collection_link": "https://martian-capsule-417732.postman.co/workspace/New-Team-Workspace~0df16d72-669a-4950-af5c-6491f494dbc9/collection/28430410-1f610a3e-f2e8-4f27-b716-1630b03dcca2?action=share&source=collection_link&creator=28430410"
+	},
+	"item": [
+		{
+			"name": "Note API",
+			"item": [
+				{
+					"name": "Create note",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/notes"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/notes"
+					},
+					"response": []
+				},
+				{
+					"name": "Get note by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update note by Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/notes/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete note by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all notes in folder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/notes"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all favorite notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/notes"
+					},
+					"response": []
+				},
+				{
+					"name": "Add note to favorite",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1/favorite"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove note from favorite",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1/favorite"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all archived notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/archived"
+					},
+					"response": []
+				},
+				{
+					"name": "Archive note by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1/archive"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove note from archive",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1/archive"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Folder API",
+			"item": [
+				{
+					"name": "Get all folders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/v1/folders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get folder by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/v1/folders/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Create folder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/v1/folders"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Backup",
+			"item": [
+				{
+					"name": "Get Backup",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/v1/backup"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Backup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/v1/backup"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
