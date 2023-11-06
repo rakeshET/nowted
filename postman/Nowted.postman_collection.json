@@ -74,15 +74,6 @@
 					"response": []
 				},
 				{
-					"name": "Get all notes in folder",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/v1/notes/folders/1/notes"
-					},
-					"response": []
-				},
-				{
 					"name": "Get all favorite notes",
 					"request": {
 						"method": "GET",
@@ -105,7 +96,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/v1/notes/1/favorite"
+						"url": "http://localhost:8080/v1/notes/2/favorite"
 					},
 					"response": []
 				},

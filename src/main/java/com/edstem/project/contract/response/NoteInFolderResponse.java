@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NoteInFolderResponse {
     private Long id;
-    private String name;
+    private String message;
 }

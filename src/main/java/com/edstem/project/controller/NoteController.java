@@ -85,25 +85,16 @@ public class NoteController {
 
     @GetMapping("/archived")
     public List<NoteArchivedResponse> getArchivedNotes() {
-        List<Note> archivedNotes = noteService.getArchivedNotes();
-        return archivedNotes.stream()
-                .map(note -> modelMapper.map(note, NoteArchivedResponse.class))
-                .collect(Collectors.toList());
+        return noteService.getArchivedNotes();
     }
 
     @PutMapping("/{id}/archive")
-    public NoteArchivedResponse archiveNote(
-            @PathVariable Long id, @RequestBody NoteArchiveRequest request) {
-        if (request != null) {
-            NoteArchivedResponse response = noteService.archiveNote(id, request);
-            return response;
-        } else {
-            throw new CustomException("Invalid request.");
-        }
+    public NoteArchivedResponse archiveNote(@PathVariable Long id) {
+        return noteService.archiveNote(id);
     }
 
     @DeleteMapping("/{id}/archive")
-    public NoteUnarchivedResponse unarchiveNote(@PathVariable Long id) {
+    public NoteArchivedResponse unarchiveNote(@PathVariable Long id) {
         return noteService.unarchiveNote(id);
     }
 }

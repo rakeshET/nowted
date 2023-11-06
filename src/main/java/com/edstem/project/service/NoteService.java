@@ -1,24 +1,23 @@
 package com.edstem.project.service;
 
-import com.edstem.project.contract.request.NoteArchiveRequest;
 import com.edstem.project.contract.request.NoteRequest;
 import com.edstem.project.contract.response.NoteArchivedResponse;
 import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
-import com.edstem.project.contract.response.NoteUnarchivedResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.model.Folder;
 import com.edstem.project.model.Note;
 import com.edstem.project.repository.FolderRepository;
 import com.edstem.project.repository.NoteRepository;
 import jakarta.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -124,34 +123,36 @@ public class NoteService {
         }
     }
 
-    public List<Note> getArchivedNotes() {
-        return noteRepository.findByArchiveTrue();
+    public List<NoteArchivedResponse> getArchivedNotes() {
+        List<Note> archivedNotes = noteRepository.findByArchiveTrue();
+        return archivedNotes.stream()
+                .map(note -> modelMapper.map(note, NoteArchivedResponse.class))
+                .collect(Collectors.toList());
     }
 
-    public NoteArchivedResponse archiveNote(Long noteId, NoteArchiveRequest request) {
-        Note note = noteRepository.findById(noteId).orElse(null);
 
-        if (note == null) {
-            throw new CustomException("Note not found with ID: " + noteId);
+    public NoteArchivedResponse archiveNote(Long id) {
+        Note note = noteRepository.findById(id).orElse(null);
+        if (note != null) {
+            note.setArchive(true);
+            note = noteRepository.save(note);
+
+            NoteArchivedResponse response = modelMapper.map(note, NoteArchivedResponse.class);
+            return response;
         }
-
-        note.setArchive(request.isArchive());
-
-        note = noteRepository.save(note);
-
-        return modelMapper.map(note, NoteArchivedResponse.class);
+        return null;
     }
 
-    public NoteUnarchivedResponse unarchiveNote(Long id) {
+    public NoteArchivedResponse unarchiveNote(Long id) {
         Note note = noteRepository.findById(id).orElse(null);
 
-        if (note == null) {
+        if (note != null) {
+            note.setArchive(false);
+            note = noteRepository.save(note);
+            return modelMapper.map(note, NoteArchivedResponse.class);
+        } else {
             throw new CustomException("Note not found with ID: " + id);
         }
-
-        note.setArchive(false);
-        note = noteRepository.save(note);
-
-        return modelMapper.map(note, NoteUnarchivedResponse.class);
     }
 }
+
