@@ -100,8 +100,8 @@ public class NoteService {
                 .collect(Collectors.toList());
     }
 
-    public NoteFavoriteResponse addNoteToFavorites(Long noteId) {
-        Note note = noteRepository.findById(noteId).orElse(null);
+    public NoteFavoriteResponse addNoteToFavorites(Long id) {
+        Note note = noteRepository.findById(id).orElse(null);
         if (note != null) {
             note.setFavorite(true);
             note = noteRepository.save(note);
