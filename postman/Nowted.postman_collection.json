@@ -15,7 +15,16 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "http://localhost:8080/notes"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My Third Note\",\r\n    \"content\": \"The sun was setting, casting a golden glow across the landscape. The trees swayed gently in the breeze, their leaves rustling softly. Birds chirped merrily, their songs filling the air. A river flowed nearby, its waters sparkling under the sun's rays. The scent of flowers wafted through the air, mingling with the earthy smell of the forest. It was a scene of tranquility and beauty, untouched by the hustle and bustle of city life. The harmony of nature was evident in every aspect, from the rustling of the leaves to the gentle flow of the river. It was a perfect moment, frozen in time.\",\r\n    \"createdDate\": \"2023-11-03\",\r\n    \"folder\": {\r\n        \"id\": 2,\r\n        \"name\": \"Personal\"\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/v1/notes"
 					},
 					"response": []
 				},
@@ -24,7 +33,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/notes"
+						"url": "http://localhost:8080/v1/notes"
 					},
 					"response": []
 				},
@@ -33,7 +42,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/v1/notes/1"
+						"url": "http://localhost:8080/v1/notes/2"
 					},
 					"response": []
 				},
@@ -42,7 +51,16 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"url": "http://localhost:8080/notes/1"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My Second Note\",\r\n    \"content\": \"The sun was setting, casting a golden glow across the landscape. The trees swayed gently in the breeze, their leaves rustling softly. Birds chirped merrily, their songs filling the air. A river flowed nearby, its waters sparkling under the sun's rays. The scent of flowers wafted through the air, mingling with the earthy smell of the forest. It was a scene of tranquility and beauty, untouched by the hustle and bustle of city life. The harmony of nature was evident in every aspect, from the rustling of the leaves to the gentle flow of the river. It was a perfect moment, frozen in time.\",\r\n    \"createdDate\": \"2023-11-03\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/v1/notes/2"
 					},
 					"response": []
 				},
@@ -51,7 +69,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/v1/notes/1"
+						"url": "http://localhost:8080/v1/notes/52"
 					},
 					"response": []
 				},
@@ -60,7 +78,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/notes"
+						"url": "http://localhost:8080/v1/notes/folders/1/notes"
 					},
 					"response": []
 				},
@@ -69,7 +87,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/notes"
+						"url": "http://localhost:8080/v1/notes/favorites"
 					},
 					"response": []
 				},
@@ -78,6 +96,15 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": "http://localhost:8080/v1/notes/1/favorite"
 					},
 					"response": []
@@ -137,7 +164,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/v1/folders/1"
+						"url": "http://localhost:8080/v1/folders/3"
 					},
 					"response": []
 				},
@@ -146,6 +173,15 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Work\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": "http://localhost:8080/v1/folders"
 					},
 					"response": []
