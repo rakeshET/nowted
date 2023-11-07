@@ -14,4 +14,6 @@ import lombok.Setter;
 public class TrashResponse {
     private Long id;
     private NoteResponse note;
+    private Long folderId;
+    private String folderName;
 }

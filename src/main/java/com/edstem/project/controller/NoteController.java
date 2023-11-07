@@ -56,10 +56,10 @@ public class NoteController {
         return note;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteNote(@PathVariable Long id) {
-        noteService.deleteNote(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deleteNote(@PathVariable Long id) {
+//        noteService.deleteNote(id);
+//    }
 
     @GetMapping("/folders/{folderId}/notes")
     public List<NoteInFolderResponse> getAllNotesInFolder(@PathVariable Long folderId) {

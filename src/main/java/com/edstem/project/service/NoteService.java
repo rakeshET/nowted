@@ -80,9 +80,9 @@ public class NoteService {
         return modelMapper.map(existingNote, NoteResponse.class);
     }
 
-    public void deleteNote(Long id) {
-        noteRepository.deleteById(id);
-    }
+//    public void deleteNote(Long id) {
+//        noteRepository.deleteById(id);
+//    }
 
     public List<NoteInFolderResponse> getAllNotesInFolder(Long folderId) {
         List<Note> notesInFolder = noteRepository.findByFolderId(folderId);
