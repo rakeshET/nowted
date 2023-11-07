@@ -11,13 +11,12 @@ import com.edstem.project.model.Note;
 import com.edstem.project.repository.FolderRepository;
 import com.edstem.project.repository.NoteRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -130,7 +129,6 @@ public class NoteService {
                 .collect(Collectors.toList());
     }
 
-
     public NoteArchivedResponse archiveNote(Long id) {
         Note note = noteRepository.findById(id).orElse(null);
         if (note != null) {
@@ -155,4 +153,3 @@ public class NoteService {
         }
     }
 }
-

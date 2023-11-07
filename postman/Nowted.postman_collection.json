@@ -123,7 +123,7 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"url": "http://localhost:8080/v1/notes/1/archive"
+						"url": "http://localhost:8080/v1/notes/2/archive"
 					},
 					"response": []
 				},

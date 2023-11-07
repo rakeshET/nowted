@@ -51,7 +51,7 @@ Here are the API endpoints for the note-taking application:
 - **Unarchive a note**: A `DELETE` endpoint at `/v1/notes/{id}/archive`.
 - **Create a backup**: A `POST` endpoint at `/v1/backup`.
 - **gET a backup**: A `POST` endpoint at `/v1/backup`.
-- 
+-
 
 
 ## Integration

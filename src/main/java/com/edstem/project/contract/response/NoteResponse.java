@@ -15,4 +15,5 @@ public class NoteResponse {
     private String title;
     private String content;
     private LocalDate createdDate;
+    private String folderName;
 }

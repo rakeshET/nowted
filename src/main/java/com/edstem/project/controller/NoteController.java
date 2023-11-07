@@ -1,17 +1,13 @@
 package com.edstem.project.controller;
 
-import com.edstem.project.contract.request.NoteArchiveRequest;
 import com.edstem.project.contract.request.NoteRequest;
 import com.edstem.project.contract.response.NoteArchivedResponse;
 import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
-import com.edstem.project.contract.response.NoteUnarchivedResponse;
 import com.edstem.project.exception.CustomException;
-import com.edstem.project.model.Note;
 import com.edstem.project.service.NoteService;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.DeleteMapping;
