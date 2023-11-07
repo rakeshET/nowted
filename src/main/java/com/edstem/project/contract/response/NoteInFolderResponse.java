@@ -12,8 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NoteInFolderResponse {
-//    private Long id;
-//    private String message;
 private Long id;
     private String title;
     private String content;
