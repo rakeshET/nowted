@@ -15,6 +15,8 @@ public class NoteResponse {
     private String title;
     private String content;
     private LocalDate createdDate;
+    private boolean favorite;
+    private boolean archive;
     private String folderId;
     private String folderName;
 }
