@@ -23,7 +23,7 @@ public class NoteBackupService {
     }
 
     public void createBackupForMonth(YearMonth month) {
-        List<NoteResponse> notes = noteService.getAllNotes();
+        List<NoteResponse> notes = noteService.getAllActiveNotes();
 
         List<NoteResponse> notesToBackup =
                 notes.stream()

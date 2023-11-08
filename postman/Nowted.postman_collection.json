@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"My Seventh Note\",\r\n    \"content\": \"The sun was setting, casting a golden glow across the landscape. The trees swayed gently in the breeze, their leaves rustling softly. Birds chirped merrily, their songs filling the air. A river flowed nearby, its waters sparkling under the sun's rays. The scent of flowers wafted through the air, mingling with the earthy smell of the forest. It was a scene of tranquility and beauty, untouched by the hustle and bustle of city life. The harmony of nature was evident in every aspect, from the rustling of the leaves to the gentle flow of the river. It was a perfect moment, frozen in time.\",\r\n    \"createdDate\": \"2023-11-03\",\r\n    \"folder\": {\r\n        \"id\": 2,\r\n        \"name\": \"Personal\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n    \"title\": \"My Fourth Note\",\r\n    \"content\": \"The sun was setting, casting a golden glow across the landscape. The trees swayed gently in the breeze, their leaves rustling softly. Birds chirped merrily, their songs filling the air. A river flowed nearby, its waters sparkling under the sun's rays. The scent of flowers wafted through the air, mingling with the earthy smell of the forest. It was a scene of tranquility and beauty, untouched by the hustle and bustle of city life. The harmony of nature was evident in every aspect, from the rustling of the leaves to the gentle flow of the river. It was a perfect moment, frozen in time.\",\r\n    \"createdDate\": \"2023-11-03\",\r\n    \"folder\": {\r\n        \"id\": 2,\r\n        \"name\": \"Work\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -42,7 +42,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/v1/notes/2"
+						"url": "http://localhost:8080/v1/notes/1"
 					},
 					"response": []
 				},
@@ -123,7 +123,7 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"url": "http://localhost:8080/v1/notes/2/archive"
+						"url": "http://localhost:8080/v1/notes/3/archive"
 					},
 					"response": []
 				},
@@ -132,7 +132,43 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/v1/notes/1/archive"
+						"url": "http://localhost:8080/v1/notes/3/archive"
+					},
+					"response": []
+				},
+				{
+					"name": "View Trash",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/trashed"
+					},
+					"response": []
+				},
+				{
+					"name": "Move note to trash",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/1/trash"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset note",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/2/trash"
+					},
+					"response": []
+				},
+				{
+					"name": "Permanently delete a note",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/v1/notes/4/delete"
 					},
 					"response": []
 				}
@@ -174,65 +210,6 @@
 							}
 						},
 						"url": "http://localhost:8080/v1/folders"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Trash API",
-			"item": [
-				{
-					"name": "Get trashed notes",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/v1/trash"
-					},
-					"response": []
-				},
-				{
-					"name": "Restore note",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": "http://localhost:8080/v1/trash/604/restore"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete a note by id",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Work\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8080/v1/trash/404"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete a note permanently",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Work\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8080/v1/trash/605"
 					},
 					"response": []
 				}

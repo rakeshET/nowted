@@ -17,6 +17,7 @@ public class NoteResponse {
     private LocalDate createdDate;
     private boolean favorite;
     private boolean archive;
+    private boolean trash;
     private Long folderId;
     private String folderName;
 }

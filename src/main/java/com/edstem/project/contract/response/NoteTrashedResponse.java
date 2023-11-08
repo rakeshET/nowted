@@ -1,5 +1,6 @@
-package com.edstem.project.contract.request;
+package com.edstem.project.contract.response;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NoteInFolderRequest {
+public class NoteTrashedResponse {
+    private Long id;
     private String title;
     private String content;
+    private LocalDate createdDate;
 }

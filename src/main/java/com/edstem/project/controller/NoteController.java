@@ -5,11 +5,13 @@ import com.edstem.project.contract.response.NoteArchivedResponse;
 import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
+import com.edstem.project.contract.response.NoteTrashedResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.service.NoteService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +37,7 @@ public class NoteController {
 
     @GetMapping
     public List<NoteResponse> getAllNotes() {
-        return noteService.getAllNotes();
+        return noteService.getAllActiveNotes();
     }
 
     @GetMapping("/{id}")
@@ -56,14 +58,9 @@ public class NoteController {
         return note;
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deleteNote(@PathVariable Long id) {
-//        noteService.deleteNote(id);
-//    }
-
     @GetMapping("/folders/{folderId}/notes")
     public List<NoteInFolderResponse> getAllNotesInFolder(@PathVariable Long folderId) {
-        return noteService.getAllNotesInFolder(folderId);
+        return noteService.getAllActiveNotesInFolder(folderId);
     }
 
     @GetMapping("/favorites")
@@ -94,5 +91,25 @@ public class NoteController {
     @DeleteMapping("/{id}/archive")
     public NoteArchivedResponse unarchiveNote(@PathVariable Long id) {
         return noteService.unarchiveNote(id);
+    }
+
+    @GetMapping("/trashed")
+    public List<NoteTrashedResponse> getTrashedNotes() {
+        return noteService.getTrashedNotes();
+    }
+
+    @PutMapping("/{id}/trash")
+    public NoteTrashedResponse trashNote(@PathVariable Long id) {
+        return noteService.trashNote(id);
+    }
+
+    @DeleteMapping("/{id}/trash")
+    public NoteTrashedResponse restoreNoteFromTrash(@PathVariable Long id) {
+        return noteService.restoreNoteFromTrash(id);
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<?> deleteNote(@PathVariable Long id) {
+        return noteService.deleteNote(id);
     }
 }

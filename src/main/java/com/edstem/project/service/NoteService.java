@@ -5,6 +5,7 @@ import com.edstem.project.contract.response.NoteArchivedResponse;
 import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
+import com.edstem.project.contract.response.NoteTrashedResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.model.Folder;
 import com.edstem.project.model.Note;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,9 +53,10 @@ public class NoteService {
         return modelMapper.map(builtNote, NoteResponse.class);
     }
 
-    public List<NoteResponse> getAllNotes() {
+    public List<NoteResponse> getAllActiveNotes() {
         List<Note> notes = noteRepository.findAll();
         return notes.stream()
+                .filter(note -> !note.isArchive() && !note.isTrash())
                 .map(note -> modelMapper.map(note, NoteResponse.class))
                 .collect(Collectors.toList());
     }
@@ -80,13 +83,10 @@ public class NoteService {
         return modelMapper.map(existingNote, NoteResponse.class);
     }
 
-//    public void deleteNote(Long id) {
-//        noteRepository.deleteById(id);
-//    }
-
-    public List<NoteInFolderResponse> getAllNotesInFolder(Long folderId) {
+    public List<NoteInFolderResponse> getAllActiveNotesInFolder(Long folderId) {
         List<Note> notesInFolder = noteRepository.findByFolderId(folderId);
         return notesInFolder.stream()
+                .filter(note -> !note.isArchive() && !note.isTrash())
                 .map(note -> modelMapper.map(note, NoteInFolderResponse.class))
                 .collect(Collectors.toList());
     }
@@ -148,6 +148,52 @@ public class NoteService {
             note.setArchive(false);
             note = noteRepository.save(note);
             return modelMapper.map(note, NoteArchivedResponse.class);
+        } else {
+            throw new CustomException("Note not found with ID: " + id);
+        }
+    }
+
+    public List<NoteTrashedResponse> getTrashedNotes() {
+        List<Note> trashedNotes = noteRepository.findByTrashTrue();
+        return trashedNotes.stream()
+                .map(note -> modelMapper.map(note, NoteTrashedResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public NoteTrashedResponse trashNote(Long id) {
+        Note note = noteRepository.findById(id).orElse(null);
+        if (note != null) {
+            note.setTrash(true);
+            note = noteRepository.save(note);
+
+            NoteTrashedResponse response = modelMapper.map(note, NoteTrashedResponse.class);
+            return response;
+        }
+        return null;
+    }
+
+    public NoteTrashedResponse restoreNoteFromTrash(Long id) {
+        Note note = noteRepository.findById(id).orElse(null);
+
+        if (note != null) {
+            note.setTrash(false);
+            note = noteRepository.save(note);
+            return modelMapper.map(note, NoteTrashedResponse.class);
+        } else {
+            throw new CustomException("Note not found with ID: " + id);
+        }
+    }
+
+    public ResponseEntity<?> deleteNote(Long id) {
+        Note note = noteRepository.findById(id).orElse(null);
+
+        if (note != null) {
+            if (note.isTrash()) {
+                noteRepository.delete(note);
+                return ResponseEntity.ok().build();
+            } else {
+                throw new CustomException("Note with ID: " + id + " is not in the trash");
+            }
         } else {
             throw new CustomException("Note not found with ID: " + id);
         }

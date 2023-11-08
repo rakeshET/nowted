@@ -36,6 +36,7 @@ public class Note {
     @NotNull private LocalDate createdDate;
     private boolean favorite;
     private boolean archive;
+    private boolean trash;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
