@@ -18,6 +18,7 @@ import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
 import com.edstem.project.contract.response.NoteTrashedResponse;
+import com.edstem.project.contract.response.SearchResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.model.Folder;
 import com.edstem.project.model.Note;
@@ -25,6 +26,7 @@ import com.edstem.project.repository.FolderRepository;
 import com.edstem.project.repository.NoteRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -465,6 +467,23 @@ class NoteServiceTest {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
+    }
+    @Test
+    public void testSearchByQuery() {
+        // Arrange
+        String query = "test";
+        Note note = new Note();
+        note.setTitle("test title");
+        note.setContent("test content");
+        List<Note> notes = Arrays.asList(note);
+
+        when(noteRepository.findAll()).thenReturn(notes);
+
+        List<SearchResponse> actualResponse = noteService.searchByQuery(query);
+
+        assertEquals(1, actualResponse.size());
+        assertEquals("test title", actualResponse.get(0).getTitle());
+        assertEquals("test content", actualResponse.get(0).getContent());
     }
 }
 

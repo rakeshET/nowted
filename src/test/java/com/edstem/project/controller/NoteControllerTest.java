@@ -7,6 +7,7 @@ import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
 import com.edstem.project.contract.response.NoteTrashedResponse;
+import com.edstem.project.contract.response.SearchResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.service.NoteService;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -249,5 +251,20 @@ class NoteControllerTest {
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         verify(noteService, times(1)).deleteNote(id);
+    }
+    @Test
+    public void testSearch() {
+        // Arrange
+        String query = "test";
+        SearchResponse searchResponse = new SearchResponse();
+        searchResponse.setTitle("test title");
+        searchResponse.setContent("test content");
+        List<SearchResponse> expectedResponse = Arrays.asList(searchResponse);
+
+        when(noteService.searchByQuery(query)).thenReturn(expectedResponse);
+
+        List<SearchResponse> actualResponse = noteController.search(query);
+
+        assertEquals(expectedResponse, actualResponse);
     }
 }
