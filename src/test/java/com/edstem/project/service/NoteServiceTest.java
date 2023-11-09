@@ -2,10 +2,12 @@ package com.edstem.project.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -86,6 +88,7 @@ class NoteServiceTest {
         verify(folderRepository).findById(Mockito.<Long>any());
         verify(noteRepository).save(Mockito.<Note>any());
     }
+
 
     @Test
     void testGetAllNotes() {
@@ -273,6 +276,53 @@ class NoteServiceTest {
     }
 
     @Test
+    void testArchiveNote() {
+        Long id = 1L;
+        Note note = new Note();
+        note.setArchive(false);
+
+        when(noteRepository.findById(id)).thenReturn(Optional.of(note));
+        when(noteRepository.save(note)).thenReturn(note);
+        when(modelMapper.map(note, NoteArchivedResponse.class)).thenReturn(new NoteArchivedResponse());
+
+        NoteArchivedResponse result = noteService.archiveNote(id);
+
+        assertTrue(note.isArchive());
+        assertNotNull(result);
+        verify(noteRepository, times(1)).findById(id);
+        verify(noteRepository, times(1)).save(note);
+    }
+
+    @Test
+    void testArchiveNote_NotFound() {
+        Long id = 1L;
+
+        when(noteRepository.findById(id)).thenReturn(Optional.empty());
+
+        NoteArchivedResponse result = noteService.archiveNote(id);
+
+        assertNull(result);
+        verify(noteRepository, times(1)).findById(id);
+    }
+    @Test
+    void testUnarchiveNote() {
+        Long id = 1L;
+        Note note = new Note();
+        note.setArchive(true);
+
+        when(noteRepository.findById(id)).thenReturn(Optional.of(note));
+        when(noteRepository.save(note)).thenReturn(note);
+        when(modelMapper.map(note, NoteArchivedResponse.class)).thenReturn(new NoteArchivedResponse());
+
+        NoteArchivedResponse result = noteService.unarchiveNote(id);
+
+        assertFalse(note.isArchive());
+        assertNotNull(result);
+        verify(noteRepository, times(1)).findById(id);
+        verify(noteRepository, times(1)).save(note);
+    }
+
+    @Test
     void testUnarchiveNote_NotFound() {
         Long id = 1L;
 
@@ -286,6 +336,36 @@ class NoteServiceTest {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
+        verify(noteRepository, times(1)).findById(id);
+    }
+    @Test
+    void testTrashNote() {
+        Long id = 1L;
+        Note note = new Note();
+        note.setTrash(false);
+
+        when(noteRepository.findById(id)).thenReturn(Optional.of(note));
+        when(noteRepository.save(note)).thenReturn(note);
+        when(modelMapper.map(note, NoteTrashedResponse.class)).thenReturn(new NoteTrashedResponse());
+
+        NoteTrashedResponse result = noteService.trashNote(id);
+
+        assertTrue(note.isTrash());
+        assertNotNull(result);
+        verify(noteRepository, times(1)).findById(id);
+        verify(noteRepository, times(1)).save(note);
+    }
+
+    @Test
+    void testTrashNote_NotFound() {
+        Long id = 1L;
+
+        when(noteRepository.findById(id)).thenReturn(Optional.empty());
+
+        NoteTrashedResponse result = noteService.trashNote(id);
+
+        assertNull(result);
+        verify(noteRepository, times(1)).findById(id);
     }
     @Test
     void testGetTrashedNotes() {
@@ -302,17 +382,25 @@ class NoteServiceTest {
         assertFalse(result.isEmpty());
         verify(noteRepository, times(1)).findByTrashTrue();
     }
+
     @Test
-    void testTrashNote_NotFound() {
+    void testRestoreNoteFromTrash() {
         Long id = 1L;
+        Note note = new Note();
+        note.setTrash(true);
 
-        when(noteRepository.findById(id)).thenReturn(Optional.empty());
+        when(noteRepository.findById(id)).thenReturn(Optional.of(note));
+        when(noteRepository.save(note)).thenReturn(note);
+        when(modelMapper.map(note, NoteTrashedResponse.class)).thenReturn(new NoteTrashedResponse());
 
-        NoteTrashedResponse result = noteService.trashNote(id);
+        NoteTrashedResponse result = noteService.restoreNoteFromTrash(id);
 
-        assertNull(result);
+        assertFalse(note.isTrash());
+        assertNotNull(result);
         verify(noteRepository, times(1)).findById(id);
+        verify(noteRepository, times(1)).save(note);
     }
+
     @Test
     void testRestoreNoteFromTrash_NotFound() {
         Long id = 1L;
@@ -327,6 +415,7 @@ class NoteServiceTest {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
+        verify(noteRepository, times(1)).findById(id);
     }
 
     @Test
