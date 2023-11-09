@@ -171,6 +171,47 @@
 						"url": "http://localhost:8080/v1/notes/4/delete"
 					},
 					"response": []
+				},
+				{
+					"name": "Search",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/notes/search?query=week",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"notes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "week"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

@@ -6,6 +6,7 @@ import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
 import com.edstem.project.contract.response.NoteTrashedResponse;
+import com.edstem.project.contract.response.SearchResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.model.Folder;
 import com.edstem.project.model.Note;
@@ -198,5 +199,21 @@ public class NoteService {
             throw new CustomException("Note not found with ID: " + id);
         }
     }
+    public List<SearchResponse> searchByQuery(String query) {
+        List<Note> notes = noteRepository.findAll();
+        return notes.stream()
+                .filter(note -> !note.isArchive() && !note.isTrash() && (note.getTitle().contains(query) || note.getContent().contains(query)))
+                .map(note -> {
+                    SearchResponse response = new SearchResponse();
+                    response.setNoteName(note.getTitle());
+                    response.setContent(note.getContent());
+                    if (note.getFolder() != null) {
+                        response.setFolderName(note.getFolder().getName());
+                    }
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
+
 
 }

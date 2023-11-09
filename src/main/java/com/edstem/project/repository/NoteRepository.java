@@ -14,4 +14,5 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findByArchiveTrue();
 
     List<Note> findByTrashTrue();
+
 }

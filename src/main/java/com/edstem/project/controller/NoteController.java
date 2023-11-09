@@ -6,6 +6,7 @@ import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
 import com.edstem.project.contract.response.NoteTrashedResponse;
+import com.edstem.project.contract.response.SearchResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.service.NoteService;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -112,4 +114,10 @@ public class NoteController {
     public ResponseEntity<?> deleteNote(@PathVariable Long id) {
         return noteService.deleteNote(id);
     }
+
+    @GetMapping("/search")
+    public List<SearchResponse> search(@RequestParam String query) {
+        return noteService.searchByQuery(query);
+    }
 }
+
