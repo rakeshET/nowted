@@ -199,21 +199,26 @@ public class NoteService {
             throw new CustomException("Note not found with ID: " + id);
         }
     }
+
     public List<SearchResponse> searchByQuery(String query) {
         List<Note> notes = noteRepository.findAll();
         return notes.stream()
-                .filter(note -> !note.isArchive() && !note.isTrash() && (note.getTitle().contains(query) || note.getContent().contains(query)))
+                .filter(note -> !note.isArchive() && !note.isTrash() &&
+                        (note.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                                note.getContent().toLowerCase().contains(query.toLowerCase()) ||
+                                (note.getFolder() != null && note.getFolder().getName().toLowerCase().contains(query.toLowerCase())) ||
+                                note.getCreatedDate().toString().toLowerCase().contains(query.toLowerCase())))
                 .map(note -> {
                     SearchResponse response = new SearchResponse();
-                    response.setNoteName(note.getTitle());
+                    response.setTitle(note.getTitle());
                     response.setContent(note.getContent());
                     if (note.getFolder() != null) {
                         response.setFolderName(note.getFolder().getName());
                     }
+                    response.setCreatedDate(note.getCreatedDate());
                     return response;
                 })
                 .collect(Collectors.toList());
     }
-
 
 }
