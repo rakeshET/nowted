@@ -1,5 +1,12 @@
 package com.edstem.project.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.edstem.project.contract.request.NoteRequest;
 import com.edstem.project.contract.response.NoteArchivedResponse;
@@ -10,6 +17,9 @@ import com.edstem.project.contract.response.NoteTrashedResponse;
 import com.edstem.project.contract.response.SearchResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.service.NoteService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
@@ -20,29 +30,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @ContextConfiguration(classes = {NoteController.class})
 @ExtendWith(SpringExtension.class)
 class NoteControllerTest {
-    @MockBean
-    private ModelMapper modelMapper;
+    @MockBean private ModelMapper modelMapper;
 
-    @Autowired
-    private NoteController noteController;
+    @Autowired private NoteController noteController;
 
-    @MockBean
-    private NoteService noteService;
+    @MockBean private NoteService noteService;
 
     @Test
     void testCreateNote() {
@@ -70,7 +65,6 @@ class NoteControllerTest {
         Long id = 1L;
         NoteResponse expectedResponse = new NoteResponse();
 
-
         when(noteService.getNoteById(id)).thenReturn(expectedResponse);
 
         NoteResponse result = noteController.getNoteById(id);
@@ -80,16 +74,18 @@ class NoteControllerTest {
         verify(noteService, times(1)).getNoteById(id);
     }
 
-
     @Test
     void testGetNoteById_NotFound() {
         Long id = 1L;
 
         when(noteService.getNoteById(id)).thenReturn(null);
 
-        Exception exception = assertThrows(CustomException.class, () -> {
-            noteController.getNoteById(id);
-        });
+        Exception exception =
+                assertThrows(
+                        CustomException.class,
+                        () -> {
+                            noteController.getNoteById(id);
+                        });
 
         String expectedMessage = "Note not found with ID: " + id;
         String actualMessage = exception.getMessage();
@@ -117,9 +113,12 @@ class NoteControllerTest {
 
         when(noteService.updateNote(id, request)).thenReturn(null);
 
-        Exception exception = assertThrows(CustomException.class, () -> {
-            noteController.updateNote(id, request);
-        });
+        Exception exception =
+                assertThrows(
+                        CustomException.class,
+                        () -> {
+                            noteController.updateNote(id, request);
+                        });
 
         String expectedMessage = "Note not found with ID: " + id;
         String actualMessage = exception.getMessage();
@@ -252,9 +251,9 @@ class NoteControllerTest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
         verify(noteService, times(1)).deleteNote(id);
     }
+
     @Test
     public void testSearch() {
-        // Arrange
         String query = "test";
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setTitle("test title");

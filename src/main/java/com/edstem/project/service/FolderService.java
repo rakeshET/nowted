@@ -4,13 +4,12 @@ import com.edstem.project.contract.request.FolderRequest;
 import com.edstem.project.contract.response.FolderResponse;
 import com.edstem.project.model.Folder;
 import com.edstem.project.repository.FolderRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +17,7 @@ public class FolderService {
 
     private final FolderRepository folderRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    @Autowired private ModelMapper modelMapper;
 
     public FolderResponse createFolder(FolderRequest request) {
         Folder folder = modelMapper.map(request, Folder.class);
@@ -41,5 +39,4 @@ public class FolderService {
         }
         return modelMapper.map(folder, FolderResponse.class);
     }
-
 }

@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -91,7 +90,6 @@ class NoteServiceTest {
         verify(noteRepository).save(Mockito.<Note>any());
     }
 
-
     @Test
     void testGetAllNotes() {
         when(noteRepository.findAll()).thenReturn(new ArrayList<>());
@@ -171,7 +169,8 @@ class NoteServiceTest {
     @Test
     void testGetAllNotesInFolder() {
         when(noteRepository.findByFolderId(Mockito.<Long>any())).thenReturn(new ArrayList<>());
-        List<NoteInFolderResponse> actualAllNotesInFolder = noteService.getAllActiveNotesInFolder(1L);
+        List<NoteInFolderResponse> actualAllNotesInFolder =
+                noteService.getAllActiveNotesInFolder(1L);
         verify(noteRepository).findByFolderId(Mockito.<Long>any());
         assertTrue(actualAllNotesInFolder.isEmpty());
     }
@@ -285,7 +284,8 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.of(note));
         when(noteRepository.save(note)).thenReturn(note);
-        when(modelMapper.map(note, NoteArchivedResponse.class)).thenReturn(new NoteArchivedResponse());
+        when(modelMapper.map(note, NoteArchivedResponse.class))
+                .thenReturn(new NoteArchivedResponse());
 
         NoteArchivedResponse result = noteService.archiveNote(id);
 
@@ -306,6 +306,7 @@ class NoteServiceTest {
         assertNull(result);
         verify(noteRepository, times(1)).findById(id);
     }
+
     @Test
     void testUnarchiveNote() {
         Long id = 1L;
@@ -314,7 +315,8 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.of(note));
         when(noteRepository.save(note)).thenReturn(note);
-        when(modelMapper.map(note, NoteArchivedResponse.class)).thenReturn(new NoteArchivedResponse());
+        when(modelMapper.map(note, NoteArchivedResponse.class))
+                .thenReturn(new NoteArchivedResponse());
 
         NoteArchivedResponse result = noteService.unarchiveNote(id);
 
@@ -330,9 +332,12 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(CustomException.class, () -> {
-            noteService.unarchiveNote(id);
-        });
+        Exception exception =
+                assertThrows(
+                        CustomException.class,
+                        () -> {
+                            noteService.unarchiveNote(id);
+                        });
 
         String expectedMessage = "Note not found with ID: " + id;
         String actualMessage = exception.getMessage();
@@ -340,6 +345,7 @@ class NoteServiceTest {
         assertTrue(actualMessage.contains(expectedMessage));
         verify(noteRepository, times(1)).findById(id);
     }
+
     @Test
     void testTrashNote() {
         Long id = 1L;
@@ -348,7 +354,8 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.of(note));
         when(noteRepository.save(note)).thenReturn(note);
-        when(modelMapper.map(note, NoteTrashedResponse.class)).thenReturn(new NoteTrashedResponse());
+        when(modelMapper.map(note, NoteTrashedResponse.class))
+                .thenReturn(new NoteTrashedResponse());
 
         NoteTrashedResponse result = noteService.trashNote(id);
 
@@ -369,6 +376,7 @@ class NoteServiceTest {
         assertNull(result);
         verify(noteRepository, times(1)).findById(id);
     }
+
     @Test
     void testGetTrashedNotes() {
         List<Note> trashedNotes = new ArrayList<>();
@@ -377,7 +385,8 @@ class NoteServiceTest {
         trashedNotes.add(note);
 
         when(noteRepository.findByTrashTrue()).thenReturn(trashedNotes);
-        when(modelMapper.map(note, NoteTrashedResponse.class)).thenReturn(new NoteTrashedResponse());
+        when(modelMapper.map(note, NoteTrashedResponse.class))
+                .thenReturn(new NoteTrashedResponse());
 
         List<NoteTrashedResponse> result = noteService.getTrashedNotes();
 
@@ -393,7 +402,8 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.of(note));
         when(noteRepository.save(note)).thenReturn(note);
-        when(modelMapper.map(note, NoteTrashedResponse.class)).thenReturn(new NoteTrashedResponse());
+        when(modelMapper.map(note, NoteTrashedResponse.class))
+                .thenReturn(new NoteTrashedResponse());
 
         NoteTrashedResponse result = noteService.restoreNoteFromTrash(id);
 
@@ -409,9 +419,12 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(CustomException.class, () -> {
-            noteService.restoreNoteFromTrash(id);
-        });
+        Exception exception =
+                assertThrows(
+                        CustomException.class,
+                        () -> {
+                            noteService.restoreNoteFromTrash(id);
+                        });
 
         String expectedMessage = "Note not found with ID: " + id;
         String actualMessage = exception.getMessage();
@@ -443,9 +456,12 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.of(note));
 
-        Exception exception = assertThrows(CustomException.class, () -> {
-            noteService.deleteNote(id);
-        });
+        Exception exception =
+                assertThrows(
+                        CustomException.class,
+                        () -> {
+                            noteService.deleteNote(id);
+                        });
 
         String expectedMessage = "Note with ID: " + id + " is not in the trash";
         String actualMessage = exception.getMessage();
@@ -459,18 +475,21 @@ class NoteServiceTest {
 
         when(noteRepository.findById(id)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(CustomException.class, () -> {
-            noteService.deleteNote(id);
-        });
+        Exception exception =
+                assertThrows(
+                        CustomException.class,
+                        () -> {
+                            noteService.deleteNote(id);
+                        });
 
         String expectedMessage = "Note not found with ID: " + id;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
+
     @Test
     public void testSearchByQuery() {
-        // Arrange
         String query = "test";
         Note note = new Note();
         note.setTitle("test title");
@@ -486,4 +505,3 @@ class NoteServiceTest {
         assertEquals("test content", actualResponse.get(0).getContent());
     }
 }
-

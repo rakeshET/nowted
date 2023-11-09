@@ -120,4 +120,3 @@ public class NoteController {
         return noteService.searchByQuery(query);
     }
 }
-

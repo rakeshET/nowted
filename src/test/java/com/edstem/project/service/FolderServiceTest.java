@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +32,7 @@ class FolderServiceTest {
     @Autowired private FolderService folderService;
 
     @MockBean private ModelMapper modelMapper;
+
     @Test
     void testCreateFolder() {
         // Create a FolderRequest
@@ -129,5 +129,4 @@ class FolderServiceTest {
         verify(folderRepository).findById(Mockito.<Long>any());
         assertSame(folderResponse, actualFolderById);
     }
-
 }
