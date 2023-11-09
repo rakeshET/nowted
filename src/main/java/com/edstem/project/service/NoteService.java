@@ -198,4 +198,5 @@ public class NoteService {
             throw new CustomException("Note not found with ID: " + id);
         }
     }
+
 }
