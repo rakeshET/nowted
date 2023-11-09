@@ -1,32 +1,17 @@
 package com.edstem.project.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.edstem.project.contract.request.NoteRequest;
 import com.edstem.project.contract.response.NoteArchivedResponse;
 import com.edstem.project.contract.response.NoteFavoriteResponse;
 import com.edstem.project.contract.response.NoteInFolderResponse;
 import com.edstem.project.contract.response.NoteResponse;
 import com.edstem.project.contract.response.NoteTrashedResponse;
+import com.edstem.project.contract.response.SearchResponse;
 import com.edstem.project.exception.CustomException;
 import com.edstem.project.model.Folder;
 import com.edstem.project.model.Note;
 import com.edstem.project.repository.FolderRepository;
 import com.edstem.project.repository.NoteRepository;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -38,16 +23,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ContextConfiguration(classes = {NoteService.class})
 @ExtendWith(SpringExtension.class)
 class NoteServiceTest {
-    @MockBean private FolderRepository folderRepository;
+    @MockBean
+    private FolderRepository folderRepository;
 
-    @MockBean private ModelMapper modelMapper;
+    @MockBean
+    private ModelMapper modelMapper;
 
-    @MockBean private NoteRepository noteRepository;
+    @MockBean
+    private NoteRepository noteRepository;
 
-    @Autowired private NoteService noteService;
+    @Autowired
+    private NoteService noteService;
 
     @Test
     void testCreateNote() {
@@ -304,6 +310,7 @@ class NoteServiceTest {
         assertNull(result);
         verify(noteRepository, times(1)).findById(id);
     }
+
     @Test
     void testUnarchiveNote() {
         Long id = 1L;
@@ -338,6 +345,7 @@ class NoteServiceTest {
         assertTrue(actualMessage.contains(expectedMessage));
         verify(noteRepository, times(1)).findById(id);
     }
+
     @Test
     void testTrashNote() {
         Long id = 1L;
@@ -367,6 +375,7 @@ class NoteServiceTest {
         assertNull(result);
         verify(noteRepository, times(1)).findById(id);
     }
+
     @Test
     void testGetTrashedNotes() {
         List<Note> trashedNotes = new ArrayList<>();
@@ -465,6 +474,23 @@ class NoteServiceTest {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void testSearchByQuery() {
+        String query = "test";
+        Note note = new Note();
+        note.setTitle("test title");
+        note.setContent("test content");
+        List<Note> notes = Arrays.asList(note);
+
+        when(noteRepository.findAll()).thenReturn(notes);
+
+        List<SearchResponse> actualResponse = noteService.searchByQuery(query);
+
+        assertEquals(1, actualResponse.size());
+        assertEquals("test title", actualResponse.get(0).getTitle());
+        assertEquals("test content", actualResponse.get(0).getContent());
     }
 }
 
