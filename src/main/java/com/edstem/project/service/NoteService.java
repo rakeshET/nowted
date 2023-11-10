@@ -79,6 +79,10 @@ public class NoteService {
         existingNote.setTitle(request.getTitle());
         existingNote.setContent(request.getContent());
 
+        Folder folder = folderRepository.findById(request.getFolderId()).orElse(null);
+        if (folder != null) {
+            existingNote.setFolder(folder);
+        }
         existingNote = noteRepository.save(existingNote);
 
         return modelMapper.map(existingNote, NoteResponse.class);

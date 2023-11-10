@@ -16,4 +16,5 @@ public class NoteRequest {
     private String content;
     private LocalDate createdDate;
     private Folder folder;
+    private Long folderId;
 }
