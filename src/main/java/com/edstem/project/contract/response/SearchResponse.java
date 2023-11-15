@@ -16,4 +16,6 @@ public class SearchResponse {
     private String content;
     private String folderName;
     private LocalDate createdDate;
+    private boolean archive;
+    private boolean trash;
 }
