@@ -1,10 +1,11 @@
 package com.edstem.project.contract.response;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SearchResponse {
 
+    private Long Id;
     private String title;
     private String content;
     private String folderName;

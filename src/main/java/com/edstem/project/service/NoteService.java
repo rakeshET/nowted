@@ -13,13 +13,14 @@ import com.edstem.project.model.Note;
 import com.edstem.project.repository.FolderRepository;
 import com.edstem.project.repository.NoteRepository;
 import jakarta.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -212,23 +213,24 @@ public class NoteService {
                                 !note.isArchive()
                                         && !note.isTrash()
                                         && (note.getTitle()
-                                                        .toLowerCase()
-                                                        .contains(query.toLowerCase())
-                                                || note.getContent()
-                                                        .toLowerCase()
-                                                        .contains(query.toLowerCase())
-                                                || (note.getFolder() != null
-                                                        && note.getFolder()
-                                                                .getName()
-                                                                .toLowerCase()
-                                                                .contains(query.toLowerCase()))
-                                                || note.getCreatedDate()
-                                                        .toString()
-                                                        .toLowerCase()
-                                                        .contains(query.toLowerCase())))
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase())
+                                        || note.getContent()
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase())
+                                        || (note.getFolder() != null
+                                        && note.getFolder()
+                                        .getName()
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase()))
+                                        || note.getCreatedDate()
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase())))
                 .map(
                         note -> {
                             SearchResponse response = new SearchResponse();
+                            response.setId(note.getId());
                             response.setTitle(note.getTitle());
                             response.setContent(note.getContent());
                             if (note.getFolder() != null) {
