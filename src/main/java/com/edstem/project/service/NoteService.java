@@ -235,6 +235,7 @@ public class NoteService {
                             response.setContent(note.getContent());
                             if (note.getFolder() != null) {
                                 response.setFolderName(note.getFolder().getName());
+                                response.setFolderId(note.getFolder().getId());
                             }
                             response.setCreatedDate(note.getCreatedDate());
                             return response;
