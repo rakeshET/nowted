@@ -48,6 +48,7 @@ public class NoteService {
                         .content(note.getContent())
                         .createdDate(note.getCreatedDate())
                         .folder(folderOptional.get())
+
                         .build();
 
         builtNote = noteRepository.save(builtNote);
@@ -235,7 +236,6 @@ public class NoteService {
                             response.setContent(note.getContent());
                             if (note.getFolder() != null) {
                                 response.setFolderName(note.getFolder().getName());
-                                response.setFolderId(note.getFolder().getId());
                             }
                             response.setCreatedDate(note.getCreatedDate());
                             return response;
